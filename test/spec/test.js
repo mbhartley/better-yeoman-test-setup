@@ -24,11 +24,31 @@
  
     describe("A Collection instance", function(){
       describe("has a .find() method",function(){
-        it("should return an object when given an id that is present in the models");
-        it("should not return an object when that id is not present in the models");
-        it("should return undefined when that id is not present in the models");
-        it("should throw an error when given an arguemnt other than a string");
+        it("should return undefined if the property does not exist in the array ", function(){
+          var students = new Collection([{name: 'Matt'}]);
+
+          expect(students.find('Sarah')).to.equal(undefined);
+        });
+
+        it("should return the corresponding object when passed an index value", function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+
+          expect(students.find[1]).to.equal('Harry');
+        });
+
+        it("should return undefined for indexes which have never been assigned values", function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+
+          expect(students.find[7]).to.equal(undefined);
+        });
+
+        it("should throw an error when given an argument that is not a string", function(){
+          var students = new Collection([{name: 'Matt'}]);
+
+          expect(function(){students.find(Matt)}).to.throw(Error);
+        });
       });
+
 //my work begins here for commit 1//
       describe("has an .add() method",function(){
         it("should add the object it's given to the models property", function(){
@@ -60,10 +80,33 @@
       });
  
       describe("has a .remove() method",function(){
-        it("should, when given an id, remove the corresponding object from the models property");
-        it("should decrease the models property's length by 1");
-        it("should only accept a single string as an id argument");
-        it("should return true on successful removal");
+        it("should remove the corresponding object from the array when given an index value", function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.remove[0];
+
+          expect(students.models).to.equal([{name: 'Harry'}, {name: 'Henderson'}])
+        });
+
+        it("should decrease the models property's length by 1", function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.remove[0];
+
+          expect(students.models.length).to.equal(2);
+        });
+
+        it("should only accept a single string as an id argument", function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+
+          expect(function(){students.remove([])}).to.throw(Error);
+        });
+
+        it("should decrease the length of the array by 1 upon successful remove", function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          var startingLength = students.length;
+            students.remove({name: 'Matt'});
+
+            expect(students.length).to.equal(startingLength - 1); 
+        });
       })
       describe("has an .empty() method", function(){
         it('should clear out the models array');
