@@ -109,15 +109,91 @@
         });
       })
       describe("has an .empty() method", function(){
-        it('should clear out the models array');
+        it('should clear out all elements from within the array', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+            students.empty();
+
+        expect(students.models).to.equal([]);
+        });
+
+        it('should clear out all nested elements from within the array', function(){
+          var students = new Collection ([{name: {first: 'Matt'}}]);
+
+          expect(students.models).to.equal([]);
+        });
+
+        it('should throw an error if an argument is passed', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.empty(2);
+
+          expect(function(){students.empty()}).to.throw(Error);
+        });
+
+        it('should throw an error if the array is already empty', function(){
+          var students = new Collection ([]);
+          students.empty()
+
+          expect(function(){students.empty()}).to.throw(Error);
+        });
       })
  
       describe("has an .random() method", function(){
-        it('should return a random object from the models array');
+        it('should return an object', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.random();
+
+          expect(students.random).to.be.a('object');
+        });
+        it('should return a random object from the models array', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.random();
+
+           expect(students.random()).to.equal(students.models[0]).or.equal(students.models[1]).or.equal(students.random[2]);
+        });
+
+        it('should return the specified number of random objects', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          var result = students.random(2);
+
+          expect(result).to.have.length(2);
+        });
+          
+        it('should throw an error if the number of random objects passed exceeds the number present in the array', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.random(4);
+
+          expect(function(){students.random(4)}).to.throw(Error);
+        });
+
       });
  
       describe("has a .length() method", function(){
-        it('should return the length models array');
+        it('should return the length of the models array', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+
+          expect(students.length).to.equal(3);
+        });
+
+        it('should throw and error if an argument is passed', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.length('equals');
+
+          expect(students.length).to.throw(Error);
+        });
+
+        it('should increase by one when the number of objects in the array increases by one', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.name = ('Joey');
+
+          expect(students.length).to.equal(4);
+        });
+
+        it('should not mutate the array', function(){
+          var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          students.length();
+
+          expect(students).to.be([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+        });
       })
     })
 })();
