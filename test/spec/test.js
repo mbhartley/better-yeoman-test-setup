@@ -24,6 +24,12 @@
  
     describe("A Collection instance", function(){
       describe("has a .find() method",function(){
+        it("should throw an error when given an argument that is not a string", function(){
+          var students = new Collection([{name: 'Matt'}]);
+
+          expect(function(){students.find([Matt])}).to.throw(Error);
+        });
+        
         it("should return undefined if the property does not exist in the array ", function(){
           var students = new Collection([{name: 'Matt'}]);
 
@@ -42,11 +48,6 @@
           expect(students.find[7]).to.equal(undefined);
         });
 
-        it("should throw an error when given an argument that is not a string", function(){
-          var students = new Collection([{name: 'Matt'}]);
-
-          expect(function(){students.find(Matt)}).to.throw(Error);
-        });
       });
 
 //my work begins here for commit 1//
@@ -82,7 +83,7 @@
       describe("has a .remove() method",function(){
         it("should remove the corresponding object from the array when given an index value", function(){
           var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
-          students.remove[0];
+          students.remove('Matt');
 
           expect(students.models).to.equal([{name: 'Harry'}, {name: 'Henderson'}])
         });
@@ -155,7 +156,7 @@
           var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
           var result = students.random(2);
 
-          expect(result).to.have.length(2);
+          expect(students.length).to.equal(2);
         });
           
         it('should throw an error if the number of random objects passed exceeds the number present in the array', function(){
@@ -192,7 +193,7 @@
           var students = new Collection ([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
           students.length();
 
-          expect(students).to.be([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
+          expect(students).to.equal([{name: 'Matt'}, {name: 'Harry'}, {name: 'Henderson'}]);
         });
       })
     })
